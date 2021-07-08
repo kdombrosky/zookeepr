@@ -1,9 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-// require animal data 
-const { animals } = require('./data/animals');
-// require npm express package
 const express = require('express');
+const { animals } = require('./data/animals');
+
 // set environment to use port if it has been set, and if not default to 80
 const PORT = process.env.PORT || 3001;
 // instantiate the server
@@ -133,8 +132,7 @@ app.post('/api/animals', (req, res) => {
 
 // method for server to listen to open port at 3001 
 app.listen(PORT, () => {
-    console.log(`API server now on port 3001!`);
+    console.log(`API server now on port ${PORT}!`);
 });
 
 // "npm start" to run in terminal
-
