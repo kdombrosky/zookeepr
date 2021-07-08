@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const { animals } = require('./data/animals');
+const { resolveSoa } = require('dns');
 
 // set environment to use port if it has been set, and if not default to 80
 const PORT = process.env.PORT || 3001;
@@ -13,6 +14,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
+app.use(express.static('public'));
 
 
 // takes in req.query as an argument and filters through animals accordingly
@@ -111,6 +113,26 @@ app.get('/api/animals/:id', (req, res) => {
     } else {
         res.send(404);
     }
+});
+
+// route to serve index.html (root route)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// route to serve animals.html
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+// route to serve zookeepers.html
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+// wildcard routes to reroute to homepage
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 // app object method post listens for POST requests
